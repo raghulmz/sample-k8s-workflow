@@ -24,7 +24,7 @@ pipelines:
         jobs:
           build_image:
             timeout: 0
-            elastic_profile_id: demo-app
+            elastic_profile_id: profile_dind_agents
             artifacts:
             - external:
                 id: bulletin-board
