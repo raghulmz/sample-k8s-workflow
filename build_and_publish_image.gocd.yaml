@@ -60,7 +60,7 @@ pipelines:
             - exec:
                   arguments:
                   - -c
-                  - docker run $DOCKERHUB_USERNAME/bulletin-board:$GO_DEPENDENCY_LABEL_UPSTREAM npm test
+                  - echo "${DOCKERHUB_USERNAME}/bulletin-board:${GO_DEPENDENCY_LABEL_UPSTREAM}" && docker run ${DOCKERHUB_USERNAME}/bulletin-board:${GO_DEPENDENCY_LABEL_UPSTREAM} npm test
                   command: /bin/bash
                   run_if: passed
     - deploy_to_cluster:
