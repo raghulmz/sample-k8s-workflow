@@ -8,6 +8,8 @@ pipelines:
     environment_variables:
       DOCKERHUB_ORG: gocddemo
       DOCKERHUB_USERNAME: raghulmz
+      HELM_REL_NAME: test-bb
+      KUBE_NS: bboard
     materials:
       git:
         git: https://github.com/raghulmz/node-bulletin-board.git
@@ -96,6 +98,12 @@ pipelines:
             timeout: 0
             elastic_profile_id: profile_helm_agents
             tasks:
+            - exec:
+              command: /bin/sh
+              run_if: passed
+                arguments:
+                  - -c
+                  - echo "helm --kubeconfig kubeconfig upgrade ${HELM_REL_NAME} bulletin-board --namespace ${KUBE_NS} --set image.tag:${GO_PIPELINE_LABEL}"
             - exec:
                 arguments:
                   - -c
