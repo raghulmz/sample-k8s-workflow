@@ -1,6 +1,6 @@
 format_version: 3
 pipelines:
-  build_and_publish_image:
+  build_publish_test_deploy:
     group: sample
     label_template: ${COUNT}
     lock_behavior: unlockWhenFinished
@@ -39,4 +39,51 @@ pipelines:
                 - -c
                 - docker build -t $DOCKERHUB_USERNAME/bulletin-board:$GO_PIPELINE_LABEL . -f Dockerfile.application
                 command: /bin/bash
+                run_if: passed
+    - test_app_image:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+        jobs:
+          test_app_image:
+            timeout: 0
+            elastic_profile_id: profile_dind_agents
+            tasks:
+            - fetch:
+                artifact_id: bulletin-board
+                stage: build_and_publish_image
+                job: build_image
+                artifact_origin: external
+                run_if: passed
+            - exec:
+                  arguments:
+                  - -c
+                  - docker run $DOCKERHUB_USERNAME/bulletin-board:$GO_DEPENDENCY_LABEL_UPSTREAM npm test
+                  command: /bin/bash
+                  run_if: passed
+    - deploy_to_cluster:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+        jobs:
+          Deploy:
+            timeout: 0
+            elastic_profile_id: profile_dind_agents
+            tasks:
+            - fetch:
+                options:
+                  EnvironmentVariablePrefix: ''
+                  SkipImagePulling: 'true'
+                artifact_id: bulletin-board
+                stage: build_and_publish_image
+                job: build_image
+                artifact_origin: external
+                run_if: passed
+            - exec:
+                arguments:
+                command: ./app-deployment.sh
                 run_if: passed
