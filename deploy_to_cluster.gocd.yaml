@@ -6,6 +6,7 @@ pipelines:
     lock_behavior: none
     display_order: 3
     environment_variables:
+      DOCKERHUB_USERNAME: godemo
       NAMESPACE: gocd
     materials:
       upstream:
