@@ -111,14 +111,14 @@ pipelines:
                   - -c
                   - chmod +x ./argocd
             - exec:
+              arguments:
+                - -c
+                - sleep 3600
+                command: /bin/sh
+                run_if: passed
+            - exec:
                 command: /bin/sh
                 run_if: passed
                 arguments:
                   - -c
                   - ./argocd --kubeconfig /home/go/.kube/kubeconfig cluster add minikube
-            - exec:
-                arguments:
-                  - -c
-                  - sleep 3600
-                command: /bin/sh
-                run_if: passed
