@@ -103,7 +103,19 @@ pipelines:
                 run_if: passed
                 arguments:
                   - -c
-                  - argocd cluster add minikube
+                  - curl -o ./argocd https://github.com/argoproj/argo-cd/releases/download/v1.0.2/argocd-linux-amd64
+            - exec:
+                command: /bin/sh
+                run_if: passed
+                arguments:
+                  - -c
+                  - chmod +x ./argocd
+            - exec:
+                command: /bin/sh
+                run_if: passed
+                arguments:
+                  - -c
+                  - ./argocd --config cluster add --kubeconfig /home/go/.kube/kubeconfig minikube
             - exec:
                 arguments:
                   - -c
