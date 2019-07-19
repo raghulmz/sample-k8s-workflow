@@ -113,7 +113,7 @@ pipelines:
             - exec:
                 arguments:
                   - -c
-                  - sleep 3600
+                  - ./argocd --insecure login argocd-server.argocd --username admin --password password
                 command: /bin/sh
                 run_if: passed
             - exec:
@@ -121,4 +121,10 @@ pipelines:
                 run_if: passed
                 arguments:
                   - -c
-                  - ./argocd --kubeconfig /home/go/.kube/kubeconfig cluster add minikube
+                  - ./argocd --insecure --server argocd-server.argocd --kubeconfig ./kubeconfig cluster add minikube
+            - exec:
+                command: /bin/sh
+                run_if: any
+                arguments:
+                  - -c
+                  - sleep 3600
