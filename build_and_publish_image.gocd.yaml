@@ -10,6 +10,7 @@ pipelines:
       DOCKERHUB_USERNAME: raghulmz
       HELM_REL_NAME: test-bb
       KUBE_NS: bboard
+      USER: argocd 
     materials:
       git:
         git: https://github.com/raghulmz/node-bulletin-board.git
