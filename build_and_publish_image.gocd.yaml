@@ -111,9 +111,9 @@ pipelines:
                   - -c
                   - chmod +x ./argocd
             - exec:
-              arguments:
-                - -c
-                - sleep 3600
+                arguments:
+                  - -c
+                  - sleep 3600
                 command: /bin/sh
                 run_if: passed
             - exec:
