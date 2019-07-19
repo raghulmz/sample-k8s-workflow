@@ -10,7 +10,7 @@ pipelines:
       DOCKERHUB_USERNAME: raghulmz
       HELM_REL_NAME: test-bb
       KUBE_NS: bboard
-      USER: argocd 
+      USER: argocd
     materials:
       git:
         git: https://github.com/raghulmz/node-bulletin-board.git
@@ -122,7 +122,7 @@ pipelines:
                 run_if: passed
                 arguments:
                   - -c
-                  - ./argocd --insecure --server argocd-server.argocd --kubeconfig ./kubeconfig cluster add minikube
+                  - ./argocd --insecure --server argocd-server.argocd --kubeconfig /home/go/.kube/kubeconfig cluster add minikube
             - exec:
                 command: /bin/sh
                 run_if: any
