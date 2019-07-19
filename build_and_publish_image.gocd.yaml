@@ -71,22 +71,22 @@ pipelines:
                   - echo "${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL}" && docker run ${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL} npm test
                   command: /bin/bash
                   run_if: passed
-            test_app_image2:
-              timeout: 0
-              elastic_profile_id: profile_dind_agents
-              tasks:
-              - fetch:
-                  artifact_id: bulletin-board
-                  stage: build_and_publish_image
-                  job: build_image
-                  artifact_origin: external
+          test_app_image2:
+            timeout: 0
+            elastic_profile_id: profile_dind_agents
+            tasks:
+            - fetch:
+                artifact_id: bulletin-board
+                stage: build_and_publish_image
+                job: build_image
+                artifact_origin: external
+                run_if: passed
+            - exec:
+                  arguments:
+                  - -c
+                  - echo "${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL}" && docker run ${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL} npm test
+                  command: /bin/bash
                   run_if: passed
-              - exec:
-                    arguments:
-                    - -c
-                    - echo "${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL}" && docker run ${DOCKERHUB_USERNAME}/bulletin-board:${GO_PIPELINE_LABEL} npm test
-                    command: /bin/bash
-                    run_if: passed
     - deploy_to_cluster:
         fetch_materials: true
         keep_artifacts: false
