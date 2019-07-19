@@ -115,7 +115,7 @@ pipelines:
                 run_if: passed
                 arguments:
                   - -c
-                  - ./argocd --config cluster add --kubeconfig /home/go/.kube/kubeconfig minikube
+                  - ./argocd --kubeconfig /home/go/.kube/kubeconfig cluster add minikube
             - exec:
                 arguments:
                   - -c
