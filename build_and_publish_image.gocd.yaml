@@ -103,7 +103,7 @@ pipelines:
                 run_if: passed
                 arguments:
                   - -c
-                  - curl -o ./argocd https://github.com/argoproj/argo-cd/releases/download/v1.0.2/argocd-linux-amd64
+                  - curl -Lo ./argocd https://github.com/argoproj/argo-cd/releases/download/v1.0.2/argocd-linux-amd64
             - exec:
                 command: /bin/sh
                 run_if: passed
